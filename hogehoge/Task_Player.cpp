@@ -33,8 +33,7 @@ namespace  Player
 
 		//★データ初期化
 		rect.RectCreate(0, 0, 2, 2);
-		rect.baseImageNum = 0;
-		image.drawPos = { 16, 16 };
+		rect.RectAnimSet({ 16, 16 }, 4);
 		
 		//★タスクの生成
 
@@ -45,7 +44,7 @@ namespace  Player
 	bool  Object::Finalize()
 	{
 		//★データ＆タスク解放
-		image.ImageErase();
+		rect.RectErase();
 
 		if (!ge->QuitFlag() && this->nextTaskCreate) {
 			//★引き継ぎタスクの生成
@@ -65,13 +64,17 @@ namespace  Player
 		if (in.LStick.U.on) { speed.y = -2; }
 		if (in.LStick.D.on) { speed.y =  2; }
 
-		pos += speed;
+		if (speed.x != 0 || speed.y != 0)
+		{
+			rect.RectAnimation(0.9f);
+			pos += speed;
+		}
 	}
 	//-------------------------------------------------------------------
 	//「２Ｄ描画」１フレーム毎に行う処理
 	void  Object::Render2D_AF()
 	{
-		image.ImageRender(pos, res->imageName);
+		rect.ImageRender(pos, res->imageName);
 	}
 
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
