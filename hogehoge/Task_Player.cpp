@@ -33,7 +33,7 @@ namespace  Player
 
 		//★データ初期化
 		rect.RectCreate(0, 0, 2, 2);
-		rect.RectAnimSet({ 16, 16 }, 4);
+		rect.RectAnimSet({ 0, 0 }, 0, 3);
 		
 		//★タスクの生成
 
@@ -66,7 +66,7 @@ namespace  Player
 
 		if (speed.x != 0 || speed.y != 0)
 		{
-			rect.RectAnimation(0.9f);
+			rect.RectAnimation(0.05f);
 			pos += speed;
 		}
 	}

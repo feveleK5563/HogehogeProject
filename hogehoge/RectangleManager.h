@@ -6,23 +6,26 @@ class RectangleManager
 {
 private:
 	vector<ML::Box2D*>	charaChip;		//キャラクタの素材
-
-	unsigned int		defImageNum;	//差分用画像番号(1Pカラーと2Pカラーの差分など)
-	unsigned int		baseImageNum;	//基準画像番号(アニメーションの基準点)
 	unsigned int		rectNum;		//分割総数
+
+	unsigned int		animStartNum;	//アニメーションの開始地点
+	unsigned int		allAnimNum;		//アニメーション枚数
 	POINT				drawPos;		//描画の基準座標
 
-	unsigned int		animChipNum;	//アニメーション枚数
+	int					pramiCnt;		//アニメーションがプラスかマイナスかを判定する
 	float				animCnt;		//アニメーションカウンタ
 	bool				animTurn;		//アニメーションが反転しているか否か
 
+	bool				error;			//何かしらのエラーが発生しました
+
 public:
 	RectangleManager() :
-		defImageNum(0),
-		baseImageNum(0),
-		animChipNum(0),
+		animStartNum(0),
+		allAnimNum(1),
+		pramiCnt(0),
 		animCnt(0),
-		animTurn(false)
+		animTurn(false),
+		error(false)
 	{
 		drawPos.x = 0;
 		drawPos.y = 0;
@@ -51,17 +54,12 @@ public:
 	void RectErase();
 
 	//------------------------------------
-	//画像表示準備
-	//引数： 差分用画像番号(unsigned int), 基準画像番号(unsigned int)
+	//画像表示とアニメーションの準備
+	//引数：表示の基準座標(POINT), アニメーションの開始地点番号(unsigned int), 終了地点番号(unsigned int デフォルトで開始地点と同じ)
 	//戻り値：準備が完了したか否か(bool)
-	bool RenderSet(unsigned int defNum, unsigned int baseNum);
-
-	//------------------------------------
-	//アニメーションの準備
-	//引数：基準座標(POINT),アニメーション枚数(unsigned int)
-	//戻り値：準備が完了したか否か(bool)
-	bool RectAnimSet(POINT			dPos,
-					 unsigned int	animChip);
+	bool RectAnimSet(POINT	dPos,
+					 int	animStart,
+					 int	animEnd = -1);
 
 	//------------------------------------
 	//アニメーション

@@ -38,33 +38,33 @@ void RectangleManager::RectErase()
 	charaChip.shrink_to_fit();
 }
 
-//-------------------------------------------------------------------
-//画像表示準備
-//引数： 差分用画像番号(unsigned int), 基準画像番号(unsigned int)
+//------------------------------------
+//画像表示とアニメーションの準備
+//引数：表示の基準座標(POINT), アニメーションの開始地点番号(unsigned int), 終了地点番号(unsigned int デフォルトで開始地点と同じ)
 //戻り値：準備が完了したか否か(bool)
-bool RectangleManager::RenderSet(unsigned int defNum, unsigned int baseNum)
+bool RectangleManager::RectAnimSet(POINT	dPos,
+								   int		animStart,
+								   int		animEnd)
 {
-	if (defNum  > rectNum ||
-		baseNum > rectNum)
-		return false;
-
-	defImageNum = defNum;
-	baseImageNum = baseNum;
-	return true;
-}
-
-//-------------------------------------------------------------------
-//アニメーション準備
-//引数：基準座標(POINT),アニメーション枚数(unsigned int)
-//戻り値：準備が完了したか否か(bool)
-bool RectangleManager::RectAnimSet(POINT		 dPos,
-								   unsigned int	 animChip)
-{
-	if (animChip > rectNum)
-		return false;
-
 	drawPos = dPos;
-	animChipNum = animChip;
+	animStartNum = animStart;
+	if (animStart < 0			 || animEnd < 0 ||
+		animStart > (int)rectNum || animEnd > (int)rectNum)
+	{
+		error = true;
+		return false;
+	}
+	if (animStart <= animEnd)
+	{
+		pramiCnt = 1;
+	}
+	else
+	{
+		pramiCnt = -1;
+	}
+	allAnimNum = int(fabsf(float(animEnd - animStart))) + 1;
+
+	error = false;
 	return true;
 }
 
@@ -73,6 +73,9 @@ bool RectangleManager::RectAnimSet(POINT		 dPos,
 //引数：アニメーション速度(float)
 void RectangleManager::RectAnimation(float animSpd)
 {
+	if (error)
+		return;
+
 	animCnt += animSpd;
 }
 
@@ -83,12 +86,12 @@ void RectangleManager::ImageRender(const ML::Vec2&	pos,
 								   const string&	imageName,
 								   const ML::Color&	color)
 {
-	if (charaChip.empty())
+	if (error || charaChip.empty())
 		return;
 
 	ML::Box2D draw = { -drawPos.x, -drawPos.y, 32, 32 };
 	draw.Offset(pos);
-	ML::Box2D src = *charaChip[(defImageNum + baseImageNum + int(animCnt)) % animChipNum];
+	ML::Box2D src = *charaChip[animStartNum + (int(animCnt) % allAnimNum)* pramiCnt];
 	if (animTurn)
 	{
 		src.x += src.w;
