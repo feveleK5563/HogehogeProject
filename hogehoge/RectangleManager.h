@@ -1,12 +1,35 @@
 #pragma once
 #include "MyPG.h"
 
-//画像の分割管理とアニメーション
 class RectangleManager
 {
-private:
-	vector<ML::Box2D*>	charaChip;		//キャラクタの素材
+public:
+	vector<ML::Box2D*>	charaChip;		//キャラクタの素材(変更禁止)
 	unsigned int		rectNum;		//分割総数
+
+	//------------------------------------
+	//画像の分割用矩形を作成
+	//引数：開始位置XY(int, int), 画像の分割数WH(int, int),
+	//　　　画像サイズ(int, int デフォルトで32x32)
+	void RectCreate(int startX, int startY,
+		int width, int height,
+		int imageWidth = 32, int imageHeight = 32);
+
+	//------------------------------------
+	//画像の分割用矩形を作成(1つだけ)
+	//引数：開始位置XY(int, int), 終了位置(int, int)
+	void RectOneCreate(int startX, int startY, int endX, int endY);
+
+	//------------------------------------
+	//画像の分割データを解放
+	void RectErase();
+};
+
+//画像の分割管理とアニメーション
+class RectAnimManager
+{
+private:
+	RectangleManager*	rectm;			//矩形管理
 
 	unsigned int		animStartNum;	//アニメーションの開始地点
 	unsigned int		allAnimNum;		//アニメーション枚数
@@ -19,39 +42,29 @@ private:
 	bool				error;			//何かしらのエラーが発生しました
 
 public:
-	RectangleManager() :
+	//矩形管理クラスのポインタを入れておくれ
+	RectAnimManager() :
+		rectm(nullptr),
 		animStartNum(0),
 		allAnimNum(1),
 		pramiCnt(0),
 		animCnt(0),
 		animTurn(false),
-		error(false)
+		error(true)
 	{
 		drawPos.x = 0;
 		drawPos.y = 0;
 	};
 
-	~RectangleManager() {};
+	~RectAnimManager() {};
 
 	//--------------------------------------------------------
 	//以下使用メソッド
 
 	//------------------------------------
-	//画像の分割用矩形を作成
-	//引数：開始位置XY(int, int), 画像の分割数WH(int, int),
-	//　　　画像サイズ(int, int デフォルトで32x32)
-	void RectCreate(int startX, int startY,
-					int width, int height,
-					int imageWidth = 32, int imageHeight = 32);
-
-	//------------------------------------
-	//画像の分割用矩形を作成(1つだけ)
-	//引数：開始位置XY(int, int), 終了位置(int, int)
-	void RectOneCreate(int startX, int startY, int endX, int endY);
-
-	//------------------------------------
-	//画像の分割データを解放
-	void RectErase();
+	//矩形の設定
+	//引数：矩形管理クラスのアドレス(RectangleManager*)
+	void SetRectangle(RectangleManager* rectp);
 
 	//------------------------------------
 	//画像表示とアニメーションの準備

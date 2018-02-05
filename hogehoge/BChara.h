@@ -41,7 +41,7 @@ public:
 	AngleLRUD angleLRUD;
 
 	//その他
-	RectangleManager	rect;		//矩形管理屋さん
+	RectAnimManager		rectAnim;	//矩形使ってアニメーションする屋さん
 	int					cntTime;	//汎用タイマー
 
 	//メンバ変数の初期化

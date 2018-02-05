@@ -36,20 +36,38 @@ void RectangleManager::RectErase()
 		delete charaChip[i];
 	charaChip.clear();
 	charaChip.shrink_to_fit();
+	rectNum = 0;
+}
+
+//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+
+//------------------------------------
+//矩形の設定(一番最初に絶対呼んでね！！！)
+//引数：矩形管理クラスのアドレス(RectangleManager*)
+void RectAnimManager::SetRectangle(RectangleManager* rectp)
+{
+	rectm = rectp;
+	if (rectm != nullptr)
+		error = false;
+	else
+		error = true;
 }
 
 //------------------------------------
 //画像表示とアニメーションの準備
 //引数：表示の基準座標(POINT), アニメーションの開始地点番号(unsigned int), 終了地点番号(unsigned int デフォルトで開始地点と同じ)
 //戻り値：準備が完了したか否か(bool)
-bool RectangleManager::RectAnimSet(POINT	dPos,
+bool RectAnimManager::RectAnimSet(POINT	dPos,
 								   int		animStart,
 								   int		animEnd)
 {
+	if (error)
+		return false;
+
 	drawPos = dPos;
 	animStartNum = animStart;
 	if (animStart < 0			 || animEnd < 0 ||
-		animStart > (int)rectNum || animEnd > (int)rectNum)
+		animStart > (int)rectm->rectNum || animEnd > (int)rectm->rectNum)
 	{
 		error = true;
 		return false;
@@ -71,7 +89,7 @@ bool RectangleManager::RectAnimSet(POINT	dPos,
 //-------------------------------------------------------------------
 //アニメーション
 //引数：アニメーション速度(float)
-void RectangleManager::RectAnimation(float animSpd)
+void RectAnimManager::RectAnimation(float animSpd)
 {
 	if (error)
 		return;
@@ -82,16 +100,16 @@ void RectangleManager::RectAnimation(float animSpd)
 //-------------------------------------------------------------------
 //画像の描画
 //引数：表示座標(ML::Vec2), 画像名(string), 表示色(ML::Color デフォルトで(1, 1, 1, 1))
-void RectangleManager::ImageRender(const ML::Vec2&	pos,
+void RectAnimManager::ImageRender(const ML::Vec2&	pos,
 								   const string&	imageName,
 								   const ML::Color&	color)
 {
-	if (error || charaChip.empty())
+	if (error || rectm->charaChip.empty())
 		return;
 
 	ML::Box2D draw = { -drawPos.x, -drawPos.y, 32, 32 };
 	draw.Offset(pos);
-	ML::Box2D src = *charaChip[animStartNum + (int(animCnt) % allAnimNum)* pramiCnt];
+	ML::Box2D src = *rectm->charaChip[animStartNum + (int(animCnt) % allAnimNum)* pramiCnt];
 	if (animTurn)
 	{
 		src.x += src.w;

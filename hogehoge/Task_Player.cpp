@@ -13,6 +13,7 @@ namespace  Player
 	{
 		imageName = "Player";
 		DG::Image_Create(imageName, "./data/image/TestChara.png");
+		rect.RectCreate(0, 0, 2, 2);
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -20,6 +21,7 @@ namespace  Player
 	bool  Resource::Finalize()
 	{
 		DG::Image_Erase(imageName);
+		rect.RectErase();
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -32,8 +34,8 @@ namespace  Player
 		this->res = Resource::Create();
 
 		//★データ初期化
-		rect.RectCreate(0, 0, 2, 2);
-		rect.RectAnimSet({ 0, 0 }, 0, 3);
+		rectAnim.SetRectangle(&res->rect);
+		rectAnim.RectAnimSet({ 0, 0 }, 0, 3);
 		
 		//★タスクの生成
 
@@ -44,7 +46,6 @@ namespace  Player
 	bool  Object::Finalize()
 	{
 		//★データ＆タスク解放
-		rect.RectErase();
 
 		if (!ge->QuitFlag() && this->nextTaskCreate) {
 			//★引き継ぎタスクの生成
@@ -66,7 +67,7 @@ namespace  Player
 
 		if (speed.x != 0 || speed.y != 0)
 		{
-			rect.RectAnimation(0.05f);
+			rectAnim.RectAnimation(0.05f);
 			pos += speed;
 		}
 	}
@@ -74,7 +75,7 @@ namespace  Player
 	//「２Ｄ描画」１フレーム毎に行う処理
 	void  Object::Render2D_AF()
 	{
-		rect.ImageRender(pos, res->imageName);
+		rectAnim.ImageRender(pos, res->imageName);
 	}
 
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★

@@ -25,6 +25,7 @@ namespace  Player
 	//•ÏX‰Â
 		//‹¤—L‚·‚é•Ï”‚Í‚±‚±‚É’Ç‰Á‚·‚é
 		string imageName;
+		RectangleManager	rect;		//‹éŒ`ŠÇ—‰®‚³‚ñ
 	};
 	//-------------------------------------------------------------------
 	class  Object : public  BChara
