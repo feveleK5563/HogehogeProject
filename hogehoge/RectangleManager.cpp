@@ -3,7 +3,7 @@
 //-------------------------------------------------------------------
 //画像の分割用矩形を作成
 //引数：開始位置XY(int, int), 画像の分割数WH(int, int),
-//　　　画像サイズ(int, int デフォルトで32x32)
+//　　　画像サイズ(int, int)
 void RectangleManager::RectCreate(int startX,		int startY,
 								  int width,		int height,
 								  int imageWidth,	int imageHeight)
@@ -16,6 +16,8 @@ void RectangleManager::RectCreate(int startX,		int startY,
 		}
 	}
 	rectNum = charaChip.size();
+	imgSizeW = imageWidth;
+	imgSizeH = imageHeight;
 }
 
 //------------------------------------
@@ -107,7 +109,7 @@ void RectAnimManager::ImageRender(const ML::Vec2&	pos,
 	if (error || rectm->charaChip.empty())
 		return;
 
-	ML::Box2D draw = { -drawPos.x, -drawPos.y, 32, 32 };
+	ML::Box2D draw = { -drawPos.x, -drawPos.y, rectm->imgSizeW, rectm->imgSizeH };
 	draw.Offset(pos);
 	ML::Box2D src = *rectm->charaChip[animStartNum + (int(animCnt) % allAnimNum)* pramiCnt];
 	if (animTurn)

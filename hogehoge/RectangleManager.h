@@ -4,16 +4,21 @@
 class RectangleManager
 {
 public:
-	vector<ML::Box2D*>	charaChip;		//キャラクタの素材(変更禁止)
-	unsigned int		rectNum;		//分割総数
+	vector<ML::Box2D*>	charaChip;			//キャラクタの素材(変更禁止)
+	int					imgSizeW, imgSizeH;	//画像サイズ
+	unsigned int		rectNum;			//分割総数
+
+	RectangleManager() :
+		imgSizeW(0),
+		imgSizeH(0) {}
 
 	//------------------------------------
 	//画像の分割用矩形を作成
 	//引数：開始位置XY(int, int), 画像の分割数WH(int, int),
-	//　　　画像サイズ(int, int デフォルトで32x32)
+	//　　　画像サイズ(int, int)
 	void RectCreate(int startX, int startY,
-		int width, int height,
-		int imageWidth = 32, int imageHeight = 32);
+					int width, int height,
+					int imageWidth, int imageHeight);
 
 	//------------------------------------
 	//画像の分割用矩形を作成(1つだけ)
@@ -29,7 +34,7 @@ public:
 class RectAnimManager
 {
 private:
-	RectangleManager*	rectm;			//矩形管理
+	RectangleManager*	rectm;			//使用する矩形管理クラス
 
 	unsigned int		animStartNum;	//アニメーションの開始地点
 	unsigned int		allAnimNum;		//アニメーション枚数

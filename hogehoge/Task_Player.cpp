@@ -13,7 +13,7 @@ namespace  Player
 	{
 		imageName = "Player";
 		DG::Image_Create(imageName, "./data/image/TestChara.png");
-		rect.RectCreate(0, 0, 2, 2);
+		rect.RectCreate(0, 0, 1, 1, 64, 64);
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -35,7 +35,7 @@ namespace  Player
 
 		//★データ初期化
 		rectAnim.SetRectangle(&res->rect);
-		rectAnim.RectAnimSet({ 0, 0 }, 0, 3);
+		rectAnim.RectAnimSet({ 0, 0 }, 0, 0);
 		
 		//★タスクの生成
 
