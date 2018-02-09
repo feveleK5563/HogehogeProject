@@ -111,7 +111,7 @@ void RectAnimManager::ImageRender(const ML::Vec2&	pos,
 
 	ML::Box2D draw = { -drawPos.x, -drawPos.y, rectm->imgSizeW, rectm->imgSizeH };
 	draw.Offset(pos);
-	ML::Box2D src = *rectm->charaChip[animStartNum + (int(animCnt) % allAnimNum)* pramiCnt];
+	ML::Box2D src = *rectm->charaChip[animStartNum + (int(animCnt) % allAnimNum) * pramiCnt];
 	if (animTurn)
 	{
 		src.x += src.w;

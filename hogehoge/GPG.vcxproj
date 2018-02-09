@@ -80,6 +80,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Articulated.cpp" />
     <ClCompile Include="BChara.cpp" />
     <ClCompile Include="DG2014\DG2014_DGObject.cpp" />
     <ClCompile Include="DG2014\DG2014_Effect.cpp" />
@@ -106,6 +107,7 @@
     <ClCompile Include="xnacollision.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Articulated.h" />
     <ClInclude Include="BChara.h" />
     <ClInclude Include="DG2014\DG2014_DGObject.h" />
     <ClInclude Include="DG2014\DG2014_Effect.h" />

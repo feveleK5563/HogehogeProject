@@ -124,6 +124,9 @@
     <ClCompile Include="RectangleManager.cpp">
       <Filter>MyPG\Exe</Filter>
     </ClCompile>
+    <ClCompile Include="Articulated.cpp">
+      <Filter>MyPG\Exe</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="myLib.h">
@@ -193,6 +196,9 @@
       <Filter>MyPG\Tasks\Game</Filter>
     </ClInclude>
     <ClInclude Include="RectangleManager.h">
+      <Filter>MyPG\Exe</Filter>
+    </ClInclude>
+    <ClInclude Include="Articulated.h">
       <Filter>MyPG\Exe</Filter>
     </ClInclude>
   </ItemGroup>
